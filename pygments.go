@@ -29,7 +29,13 @@ func Highlight(code string, lexer string, format string, enc string) string {
 		os.Exit(0)
 	}
 
-	cmd := exec.Command(bin, "-l"+lexer, "-f"+format, "-O encoding="+enc)
+	// Guess the lexer based on content if a specific one is not provided
+	lexerArg := "-g"
+	if lexer != "" {
+		lexerArg = "-l" + lexer
+	}
+
+	cmd := exec.Command(bin, lexerArg, "-f"+format, "-O encoding="+enc)
 	cmd.Stdin = strings.NewReader(code)
 
 	var out bytes.Buffer
