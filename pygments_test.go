@@ -23,3 +23,10 @@ func TestHighlighting(t *testing.T) {
 		t.Error("Expected", e, ", got", v)
 	}
 }
+
+func TestUnknownFileType(t *testing.T) {
+	_, err := Highlight([]byte("# markdown"), "md", "html", "utf-8")
+	if err == nil {
+		t.Error("Expected an error")
+	}
+}
