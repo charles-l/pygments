@@ -5,7 +5,6 @@ package pygments
 import (
 	"bytes"
 	"fmt"
-	"os"
 	"os/exec"
 	"strings"
 )
@@ -22,11 +21,11 @@ func Which() string {
 	return bin
 }
 
-func Highlight(code string, lexer string, format string, enc string) string {
+func Highlight(code string, lexer string, format string, enc string) (string, error) {
 
 	if _, err := exec.LookPath(bin); err != nil {
 		fmt.Println("You do not have " + bin + " installed!")
-		os.Exit(0)
+		return "", err
 	}
 
 	// Guess the lexer based on content if a specific one is not provided
@@ -45,10 +44,8 @@ func Highlight(code string, lexer string, format string, enc string) string {
 	cmd.Stderr = &stderr
 
 	if err := cmd.Run(); err != nil {
-		fmt.Println(stderr.String())
-		fmt.Println(err)
-		os.Exit(0)
+		return "", fmt.Errorf(stderr.String())
 	}
 
-	return out.String()
+	return out.String(), nil
 }
