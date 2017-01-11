@@ -6,7 +6,6 @@ import (
 	"bytes"
 	"fmt"
 	"os/exec"
-	"strings"
 )
 
 var (
@@ -21,7 +20,7 @@ func Which() string {
 	return bin
 }
 
-func Highlight(code string, lexer string, format string, enc string) (string, error) {
+func Highlight(code []byte, lexer string, format string, enc string) (string, error) {
 
 	if _, err := exec.LookPath(bin); err != nil {
 		fmt.Println("You do not have " + bin + " installed!")
@@ -35,7 +34,7 @@ func Highlight(code string, lexer string, format string, enc string) (string, er
 	}
 
 	cmd := exec.Command(bin, lexerArg, "-f"+format, "-O encoding="+enc)
-	cmd.Stdin = strings.NewReader(code)
+	cmd.Stdin = bytes.NewReader(code)
 
 	var out bytes.Buffer
 	cmd.Stdout = &out

@@ -17,7 +17,7 @@ func TestWhich(t *testing.T) {
 }
 
 func TestHighlighting(t *testing.T) {
-	v, _ := Highlight("print \"Hello World!\"", "python", "html", "utf-8")
+	v, _ := Highlight([]byte("print \"Hello World!\""), "python", "html", "utf-8")
 	e := "<div class=\"highlight\"><pre><span></span><span class=\"k\">print</span> <span class=\"s2\">&quot;Hello World!&quot;</span>\n</pre></div>\n"
 	if v != e {
 		t.Error("Expected", e, ", got", v)
