@@ -33,7 +33,7 @@ func Highlight(code []byte, lexer string, format string, enc string) (string, er
 		lexerArg = "-l" + lexer
 	}
 
-	cmd := exec.Command(bin, lexerArg, "-f"+format, "-O encoding="+enc+",linenos=1")
+	cmd := exec.Command(bin, lexerArg, "-f"+format, "-O nowrap,encoding="+enc)
 	cmd.Stdin = bytes.NewReader(code)
 
 	var out bytes.Buffer
